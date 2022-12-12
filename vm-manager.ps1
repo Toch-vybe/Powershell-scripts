@@ -16,7 +16,7 @@ if ($Action -eq "start"){
 
     Write-Host "`nStarting all $OS_TYPE Virtual machines in the $VM_Environment environment..."
 
-    $VirtualMachinesDetails | Where-Object {($_.VM_OS -eq $OS_TYPE) && ($_.VM_Environment -eq $VM_Environment)} | ForEach-Object -parallel { #filters and fetches the csv files content based on the OS type.
+    $VirtualMachinesDetails | Where-Object {($_.VM_OS -eq $OS_TYPE) -and ($_.VM_Environment -eq $VM_Environment)} | ForEach-Object -parallel { #filters and fetches the csv files content based on the OS type.
 
         $checkIfVMExistInRG = get-azvm -ResourceGroupName $_.VM_RG -name $_.VM_Name -ErrorVariable notPresent -ErrorAction SilentlyContinue # Checks if the VM exists in the RG
 
@@ -33,13 +33,13 @@ elseif ($Action -eq "stop"){
 
     $OS_TYPE = "Windows"
 
-    Write-Host "Please specifiy the environment (Prod/Dev/Test)"
+    Write-Host "Please specifiy the environment (Prod/Dev/Test):"
 
     $VM_Environment = Read-Host
 
-    Write-Host "`nStopping all $OS_TYPE Virtual machines in the $VM_Environment..."
+    Write-Host "`nStopping all $OS_TYPE Virtual machines in the $VM_Environment environment..."
 
-    $VirtualMachinesDetails | Where-Object {($_.VM_OS -eq $OS_TYPE) && ($_.VM_Environment -eq $VM_Environment)} | ForEach-Object -parallel {
+    $VirtualMachinesDetails | Where-Object {($_.VM_OS -eq $OS_TYPE) -and ($_.VM_Environment -eq $VM_Environment)} | ForEach-Object -parallel {
 
         $checkIfVMExistInRG = get-azvm -ResourceGroupName $_.VM_RG -name $_.VM_Name -ErrorVariable notPresent -ErrorAction SilentlyContinue
 
