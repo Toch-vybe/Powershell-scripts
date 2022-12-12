@@ -63,7 +63,7 @@ elseif($Action -eq "status"){
     Write-Host "`nGetting status of all $OS_TYPE Virtual machines in the $VM_Environment environment..."
 
     $Rg_Exist = @()
-    $VirtualMachinesDetails | Where-Object {$_.VM_OS -eq $OS_TYPE} | ForEach-Object {
+    $VirtualMachinesDetails | Where-Object {($_.VM_OS -eq $OS_TYPE) -and ($_.VM_Environment -eq $VM_Environment)} | ForEach-Object {
       
         if ($Rg_Exist.Contains($_.VM_RG)) {
             return
